@@ -1,0 +1,35 @@
+#######################################
+# Syntax Coloring Map for PS2Mouse
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+PS2Mouse	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+initialize 	KEYWORD2
+clock_pin	KEYWORD2
+data_pin	KEYWORD2
+read	KEYWORD2
+report	KEYWORD2
+write	KEYWORD2
+enable KEYWORD2
+disable KEYWORD2
+set_remote_mode	KEYWORD2
+set_stream_mode	KEYWORD2
+set_resolution	KEYWORD2
+set_scaling_2_1	KEYWORD2
+set_scaling_1_1	KEYWORD2
+set_sample_rate	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+STREAM	LITERAL1
+REMOTE	LITERAL1
