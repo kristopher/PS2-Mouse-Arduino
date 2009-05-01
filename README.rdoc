@@ -1,0 +1,8 @@
+= PS2Mouse
+
+  Arduino/Wiring Library for interfacing with a PS2 mouse.
+  
+
+Homepage:: http://github.com/kristopher/ps2_mouse_arduino
+License:: MIT
+
