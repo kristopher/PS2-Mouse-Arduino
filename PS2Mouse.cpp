@@ -25,14 +25,14 @@ void PS2Mouse::initialize() {
   delay(20);
   write(0xff); // Send Reset to the mouse
   read_byte();  // Read ack byte 
-  delay(20); // Not sure why this needs this delay
+  delay(20); // Not sure why this needs the delay
   read_byte();  // blank 
   read_byte();  // blank
-  delay(20); // Not sure why this needs this delay
+  delay(20); // Not sure why this needs the delay
   if (_mode == REMOTE) {
     set_remote_mode();
   } else {
-    enable_data_reporting(); // enable_data_reporting the mouse to send data.
+    enable_data_reporting(); // Tell the mouse to start sending data again
   }
   delayMicroseconds(100);
   _initialized = 1;
@@ -40,12 +40,12 @@ void PS2Mouse::initialize() {
 
 void PS2Mouse::set_mode(int data) {
   if (_mode == STREAM) {
-    disable_data_reporting(); // Tell mouse to stop sending data.
+    disable_data_reporting(); // Tell the mouse to stop sending data.
   }
-  write(data);  // Send Set Remote Mode
+  write(data);  // Send Set Mode
   read_byte();  // Read Ack byte
   if (_mode == STREAM) {
-    enable_data_reporting(); // Tell mouse to start sending data again
+    enable_data_reporting(); // Tell the mouse to start sending data again
   }
   if (_initialized) {
     delayMicroseconds(100);    
@@ -64,14 +64,14 @@ void PS2Mouse::set_stream_mode() {
 
 void PS2Mouse::set_sample_rate(int rate) {
   if (_mode == STREAM) {
-    disable_data_reporting(); // Tell mouse to stop sending data.
+    disable_data_reporting(); // Tell the mouse to stop sending data.
   }
   write(0xf3); // Tell the mouse we are going to set the sample rate.
   read_byte(); // Read Ack Byte
   write(rate); // Send Set Sample Rate
   read_byte(); // Read ack byte
   if (_mode == STREAM) {
-    enable_data_reporting(); // Tell mouse to start sending data again
+    enable_data_reporting(); // Tell the mouse to start sending data again
   }
   delayMicroseconds(100);
 }
@@ -87,7 +87,7 @@ void PS2Mouse::set_scaling_1_1() {
 // This only effects data reporting in Stream mode.
 void PS2Mouse::enable_data_reporting() {
   if (!_enabled) {
-    write(0xf4); // Send enable_data_reporting data reporting
+    write(0xf4); // Send enable data reporting
     read_byte(); // Read Ack Byte
     _enabled = true;
   }
@@ -96,7 +96,7 @@ void PS2Mouse::enable_data_reporting() {
 // Disabling data reporting in Stream Mode will make it behave like Remote Mode
 void PS2Mouse::disable_data_reporting() {
   if (!_disabled) {
-    write(0xf5); // Send disable_data_reporting data reporting
+    write(0xf5); // Send disable data reporting
     read_byte(); // Read Ack Byte    
     _disabled = true;
   }
