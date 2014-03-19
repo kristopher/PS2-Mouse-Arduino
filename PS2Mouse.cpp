@@ -221,7 +221,7 @@ int PS2Mouse::read_movement_y(int status) {
 
 void PS2Mouse::pull_low(int pin) {
   pinMode(pin, OUTPUT);
-  digitalWrite(pin, LOW);  
+  digitalWrite(pin, LOW);
 }
 
 void PS2Mouse::pull_high(int pin) {
