@@ -219,6 +219,16 @@ int PS2Mouse::read_movement_y(int status) {
   return y;
 }
 
+int PS2IMouse::read_movement_z() {
+  int z = read();
+  if (bitRead(z, 5)) {
+    for(int i = 4; i < 16; ++i) {
+      z |= (1<<i);
+    }
+  }
+  return z;
+}
+
 void PS2Mouse::pull_low(int pin) {
   pinMode(pin, OUTPUT);
   digitalWrite(pin, LOW);
@@ -227,4 +237,40 @@ void PS2Mouse::pull_low(int pin) {
 void PS2Mouse::pull_high(int pin) {
   pinMode(pin, INPUT);
   digitalWrite(pin, HIGH);
+}
+
+PS2IMouse::PS2IMouse(int clock_pin, int data_pin, int mode): PS2Mouse(clock_pin, data_pin, mode)
+{
+}
+
+void PS2IMouse::initialize() {
+  PS2Mouse::initialize();
+  msMode();
+}
+
+void PS2IMouse::msMode() {
+  write(0xf3); // Tell the mouse we are going to set the sample rate.
+  read_byte(); // Read Ack Byte
+  write(200); // Send Set Sample Rate
+  read_byte(); // Read ack byte
+  write(0xf3); // Tell the mouse we are going to set the sample rate.
+  read_byte(); // Read Ack Byte
+  write(100); // Send Set Sample Rate
+  read_byte(); // Read ack byte
+  write(0xf3); // Tell the mouse we are going to set the sample rate.
+  read_byte(); // Read Ack Byte
+  write(80); // Send Set Sample Rate
+  read_byte(); // Read ack byte
+  write(0xf2); // Get device ID.
+  read_byte(); // Read should be 03
+}
+
+int * PS2IMouse::report(int data[]) {
+  write(0xeb); // Send Read Data
+  read_byte(); // Read Ack Byte
+  data[0] = read(); // Status bit
+  data[1] = read_movement_x(data[0]); // X Movement Packet
+  data[2] = read_movement_y(data[0]); // Y Movement Packet
+  data[3] = read_movement_z(); // Z Movement Packet
+  return data;
 }
