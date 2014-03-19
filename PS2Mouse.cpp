@@ -1,4 +1,10 @@
+
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "Arduino.h"
+#else
 #include "WConstants.h"
+#endif
+
 #include "HardwareSerial.h"
 #include "PS2Mouse.h"
 
