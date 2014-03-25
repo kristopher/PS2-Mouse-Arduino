@@ -146,7 +146,7 @@ void PS2Mouse::write(int data) {
     while (digitalRead(_clock_pin)) {;}
     parity = parity ^ (data & 0x01);
     data = data >> 1;
-  }  
+  }
   // parity 
   if (parity) {
     pull_high(_data_pin);
@@ -194,7 +194,7 @@ int PS2Mouse::read_byte() {
 
 int PS2Mouse::read_bit() {
   while (digitalRead(_clock_pin)) {;}
-  int bit = digitalRead(_data_pin);  
+  int bit = digitalRead(_data_pin);
   while (!digitalRead(_clock_pin)) {;}
   return bit;
 }
