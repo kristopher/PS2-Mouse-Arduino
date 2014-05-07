@@ -13,13 +13,14 @@ class PS2Mouse
     int _initialized;
     int _enabled;
     int _disabled;
-    int read_byte();
     int read_bit();
-    int read_movement_x(int);
-    int read_movement_y(int);
     void pull_high(int);
     void pull_low(int);
     void set_mode(int);
+  protected:
+    int read_byte();
+    int read_movement_x(int);
+    int read_movement_y(int);
   public:
     PS2Mouse(int, int, int mode = REMOTE);
     void initialize();
@@ -36,6 +37,17 @@ class PS2Mouse
     void set_scaling_2_1();
     void set_scaling_1_1();
     void set_sample_rate(int);
+};
+
+class PS2IMouse : public PS2Mouse
+{
+  private:
+    void msMode();
+    int read_movement_z();
+  public:
+    PS2IMouse(int, int, int mode = REMOTE);
+    void initialize();
+    int* report(int data[]);
 };
 
 #endif

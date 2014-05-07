@@ -7,10 +7,11 @@
  */
 
 #include <PS2Mouse.h>
-#define MOUSE_DATA 5
-#define MOUSE_CLOCK 6
+#define MOUSE_DATA 4
+#define MOUSE_CLOCK 2
 
-PS2Mouse mouse(MOUSE_CLOCK, MOUSE_DATA, STREAM);
+// PS2Mouse mouse(MOUSE_CLOCK, MOUSE_DATA, STREAM);
+PS2Mouse mouse(MOUSE_CLOCK, MOUSE_DATA);
 
 /**
  * Setup
