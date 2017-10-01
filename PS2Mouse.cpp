@@ -12,7 +12,7 @@ PS2Mouse::PS2Mouse(int clock_pin, int data_pin, int mode) {
   _clock_pin = clock_pin;
   _data_pin = data_pin;
   _mode = mode;
-  _initialized = false;  
+  _initialized = false;
   _disabled = true;
   _enabled = false;
 }
@@ -54,7 +54,7 @@ void PS2Mouse::set_mode(int data) {
     enable_data_reporting(); // Tell the mouse to start sending data again
   }
   if (_initialized) {
-    delayMicroseconds(100);    
+    delayMicroseconds(100);
   }
 }
 
@@ -62,7 +62,7 @@ void PS2Mouse::set_remote_mode() {
   set_mode(0xf0);
   _mode = REMOTE;
 }
-  
+
 void PS2Mouse::set_stream_mode() {
   set_mode(0xea);
   _mode = STREAM;
@@ -146,7 +146,7 @@ void PS2Mouse::write(int data) {
     while (digitalRead(_clock_pin)) {;}
     parity = parity ^ (data & 0x01);
     data = data >> 1;
-  }  
+  }
   // parity 
   if (parity) {
     pull_high(_data_pin);
@@ -194,7 +194,7 @@ int PS2Mouse::read_byte() {
 
 int PS2Mouse::read_bit() {
   while (digitalRead(_clock_pin)) {;}
-  int bit = digitalRead(_data_pin);  
+  int bit = digitalRead(_data_pin);
   while (!digitalRead(_clock_pin)) {;}
   return bit;
 }
@@ -220,8 +220,8 @@ int PS2Mouse::read_movement_y(int status) {
 }
 
 void PS2Mouse::pull_low(int pin) {
- 	pinMode(pin, OUTPUT);
-  digitalWrite(pin, LOW);  
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, LOW);
 }
 
 void PS2Mouse::pull_high(int pin) {
