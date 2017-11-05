@@ -26,7 +26,7 @@ void setup()
  */
 void loop()
 {
-  int data[2];
+  int16_t data[3];
   mouse.report(data);
   Serial.print(data[0]); // Status Byte
   Serial.print(":");
