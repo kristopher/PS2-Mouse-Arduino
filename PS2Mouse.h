@@ -13,10 +13,10 @@ class PS2Mouse
     int _initialized;
     int _enabled;
     int _disabled;
-    int read_byte();
+    int8_t read_byte();
     int read_bit();
-    int read_movement_x(int);
-    int read_movement_y(int);
+    int16_t read_movement_x(int);
+    int16_t read_movement_y(int);
     void pull_high(int);
     void pull_low(int);
     void set_mode(int);
@@ -26,7 +26,7 @@ class PS2Mouse
     int clock_pin();
     int data_pin();
     int read();
-    int* report(int data[]);
+    int16_t* report(int16_t data[]);
     void write(int);
     void enable_data_reporting();
     void disable_data_reporting();
@@ -39,4 +39,3 @@ class PS2Mouse
 };
 
 #endif
-
