@@ -30,9 +30,9 @@ void PS2Mouse::initialize() {
   pull_high(_data_pin);
   delay(20);
   write(0xff); // Send Reset to the mouse
-  read_byte();  // Read ack byte 
+  read_byte();  // Read ack byte
   delay(20); // Not sure why this needs the delay
-  read_byte();  // blank 
+  read_byte();  // blank
   read_byte();  // blank
   delay(20); // Not sure why this needs the delay
   if (_mode == REMOTE) {
@@ -103,7 +103,7 @@ void PS2Mouse::enable_data_reporting() {
 void PS2Mouse::disable_data_reporting() {
   if (!_disabled) {
     write(0xf5); // Send disable data reporting
-    read_byte(); // Read Ack Byte    
+    read_byte(); // Read Ack Byte
     _disabled = true;
   }
 }
@@ -134,27 +134,27 @@ void PS2Mouse::write(int data) {
   delayMicroseconds(10);
   pull_high(_clock_pin); // Start Bit
   while (digitalRead(_clock_pin)) {;} // wait for mouse to take control of clock)
-  // clock is low, and we are clear to send data 
+  // clock is low, and we are clear to send data
   for (i=0; i < 8; i++) {
     if (data & 0x01) {
       pull_high(_data_pin);
     } else {
       pull_low(_data_pin);
     }
-    // wait for clock cycle 
+    // wait for clock cycle
     while (!digitalRead(_clock_pin)) {;}
     while (digitalRead(_clock_pin)) {;}
     parity = parity ^ (data & 0x01);
     data = data >> 1;
   }
-  // parity 
+  // parity
   if (parity) {
     pull_high(_data_pin);
   } else {
     pull_low(_data_pin);
   }
   while (!digitalRead(_clock_pin)) {;}
-  while (digitalRead(_clock_pin)) {;}  
+  while (digitalRead(_clock_pin)) {;}
   pull_high(_data_pin);
   delayMicroseconds(50);
   while (digitalRead(_clock_pin)) {;}
@@ -162,7 +162,7 @@ void PS2Mouse::write(int data) {
   pull_low(_clock_pin); // put a hold on the incoming data.
 }
 
-int * PS2Mouse::report(int data[]) {
+int16_t * PS2Mouse::report(int16_t data[]) {
   write(0xeb); // Send Read Data
   read_byte(); // Read Ack Byte
   data[0] = read(); // Status bit
@@ -175,8 +175,8 @@ int PS2Mouse::read() {
   return read_byte();
 }
 
-int PS2Mouse::read_byte() {
-  int data = 0;
+int8_t PS2Mouse::read_byte() {
+  int8_t data = 0;
   pull_high(_clock_pin);
   pull_high(_data_pin);
   delayMicroseconds(50);
@@ -186,7 +186,7 @@ int PS2Mouse::read_byte() {
   for (int i = 0; i < 8; i++) {
     bitWrite(data, i, read_bit());
   }
-  read_bit(); // Partiy Bit 
+  read_bit(); // Partiy Bit
   read_bit(); // Stop bit should be 1
   pull_low(_clock_pin);
   return data;
@@ -199,8 +199,8 @@ int PS2Mouse::read_bit() {
   return bit;
 }
 
-int PS2Mouse::read_movement_x(int status) {
-  int x = read();
+int16_t PS2Mouse::read_movement_x(int status) {
+  int16_t x = read();
   if (bitRead(status, 4)) {
     for(int i = 8; i < 16; ++i) {
       x |= (1<<i);
@@ -209,8 +209,8 @@ int PS2Mouse::read_movement_x(int status) {
   return x;
 }
 
-int PS2Mouse::read_movement_y(int status) {
-  int y = read();
+int16_t PS2Mouse::read_movement_y(int status) {
+  int16_t y = read();
   if (bitRead(status, 5)) {
     for(int i = 8; i < 16; ++i) {
       y |= (1<<i);
