@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #ifndef PS2Mouse_h
 
 #define PS2Mouse_h
